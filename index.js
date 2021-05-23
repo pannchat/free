@@ -5,7 +5,7 @@ function render(){
         .then((res)=>{
             return res.json();
         }).then((data) =>{ 
-            const feProblem = data['data'];
+            let feProblem = data['data'];
             leftSection = document.getElementById('left-section');
             problem='';
             feProblem.forEach((item,index) => {
@@ -33,12 +33,13 @@ function render(){
             }
         )};
 // 유사문제 렌더링
+
 function problemSimilar(id){
     fetch('https://pannchat.github.io/fe-similars.json')
         .then((res)=>{
             return res.json();
         }).then((data) =>{ 
-            const siProblem = data['data'];
+            let siProblem = data['data'];
             var show = document.getElementById('right');
             show.style.display='block';
             var btn = document.getElementById(id+'btn');
@@ -106,6 +107,7 @@ function insertProblem(id,newNode){
 }
 // 문제 번호 정렬
 function listSort(problem){
+    console.log(problem)
     problem.forEach( (item,index) => {
         item.innerHTML = index+1;
     });
@@ -129,12 +131,11 @@ function problemRemove(id, direction){
     var problem = document.getElementById(id);
     problem.parentNode.removeChild(problem);
     if (direction == 'L'){
-        feProblem = (feProblem.filter(index => index.id !== id));
+   
         // render();
         problem = document.querySelectorAll('#left-section div.problem-num-L');
-
+        console.log(problem)
     }else{
-        siProblem = (siProblem.filter(index => index.id !== id));
         // render();
         problem = document.querySelectorAll('#right-section div.problem-num-R');
         console.log(problem)
