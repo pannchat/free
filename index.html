@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./index.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+    </head>
+    <body>
+        <script src="./fe-problems.js"></script>
+        <script src="./fe-similars.js"></script>
+        <script>
+            let feProblem = jsonData['data'];
+            let siProblem =jsonData2['data'];
+            function render(){
+                    leftSection = document.getElementById('left-section');
+                    problem='';
+                    feProblem.forEach((item,index) => {
+                        problem += `<li class="problem" id="${item.id}">
+                        <div class="problem-header">
+                            <div class="problem-type">${item.problemType}</div>
+                            <div class="problem-num-L">${index+1}</div>
+                        </div>
+                        <div class="problem-body">
+                            <div class="problem-title">${item.unitName}</div>
+                            <div>
+                                <img src="${item.problemURL}">
+                            </div>
+                        </div>
+                        <div class="problem-tail">
+                            <div class="problem-btn">
+                            <input onchange="problemSimilar(${item.id})" id="${item.id}btn" type="checkbox" style="display:none" />
+                            <label id="${item.id}label" for="${item.id}btn" class="btn">유사문항</label>
+                            <button onclick="problemRemove(${item.id},'L')">삭제</button>
+                            </div>
+                        </div>
+                    </li>`;
+                    });
+                    leftSection.innerHTML = problem;
+                }
+            function problemSimilar(id){
+                var show = document.getElementById('right');
+                show.style.display='block';
+                var btn = document.getElementById(id+'btn');
+                var label = document.getElementById(id+'label');
+                    if (btn.checked){
+                        label.style.backgroundColor='#00ABFF';
+                        label.style.color = '#fff'
+                        rightSection = document.getElementById('right-section');
+                        problem='';
+
+                        siProblem.forEach((item,index) => {
+                            
+                            problem += `<div class="problem" id="${item.id}">
+                            <div class="problem-header">
+                                <div class="problem-type">${item.problemType}</div>
+                                <div class="problem-num-R">${index+1}</div>
+                            </div>
+                            <div class="problem-body">
+                                <div class="problem-title">${item.unitName}</div>
+                                <div>
+                                    <img src="${item.problemURL}">
+                                </div>
+                            </div>
+                            <div class="problem-tail">
+                                <div class="problem-btn">
+                                <button onclick="insertProblem(${id},${item.id})">추가</button>
+                                <button onclick="changeProblem(${id},${item.id})">교환</button>
+                                </div>
+                            </div>
+                        </div>`;
+                        });
+                        rightSection.innerHTML = problem;
+
+                    }else{
+                        label.style.backgroundColor='#fff';
+                        label.style.color = '#00ABFF'
+                        rightSection.innerHTML = '';
+                    }
+
+            let exit = document.getElementById('exit');
+            try{
+                exit.addEventListener('click',()=>{
+                document.getElementById('right').style.display='none';
+                    btn.checked = false;
+                    label.style.backgroundColor='#fff';
+                        label.style.color = '#00ABFF'
+                
+                })
+               
+            }catch{
+                
+            }
+                }
+            
+            function insertProblem(id,newNode){
+                id = document.getElementById(id);
+                newNode = document.getElementById(newNode);
+                id.parentNode.insertBefore(newNode,id.nextSibling);
+                problem = document.querySelectorAll('#left-section div.problem-num-L,#left-section div.problem-num-R');
+                listSort(problem);
+                problem = document.querySelectorAll('#right-section div.problem-num-R');
+                listSort(problem);
+            }
+            function listSort(problem){
+                problem.forEach( (item,index) => {
+                    item.innerHTML = index+1;
+                });
+            }
+            function changeProblem(ids,changeNodes){
+                id = document.getElementById(ids);
+                tempId = id;
+                changeNode = document.getElementById(changeNodes);
+                tmpChangeNode = changeNode;
+                id.replaceWith(tmpChangeNode);
+
+                changeNode.children[2].innerHTML = `<div class="problem-btn"><input onchange="problemSimilar(${changeNodes})" id="${changeNodes}btn" type="checkbox" style="display:none" checked/>
+                            <label id="${changeNodes}label" for="${changeNodes}btn" class="btn" >유사문항</label>
+                            <button onclick="problemRemove(${changeNodes},'L')">삭제</button></div>`;
+                            // console.log(tempId)
+                            problemSimilar(changeNodes);
+
+            }
+            document.addEventListener('DOMContentLoaded',render);
+            function problemRemove(id, direction){
+                var problem = document.getElementById(id);
+                problem.parentNode.removeChild(problem);
+                if (direction == 'L'){
+                    feProblem = (feProblem.filter(index => index.id !== id));
+                    // render();
+                    problem = document.querySelectorAll('#left-section div.problem-num-L');
+
+                }else{
+                    siProblem = (siProblem.filter(index => index.id !== id));
+                    // render();
+                    problem = document.querySelectorAll('#right-section div.problem-num-R');
+                    console.log(problem)
+                }
+                listSort(problem);
+
+            }
+
+        </script>
+        <section>
+            <article id="left">
+                <header>
+                    <div class="sub-title">학습지 상세 편집</div>
+                </header>
+                <ul id="left-section" >
+                </ul>
+            </article>
+            <article id="right">
+                <header style="text-align: center;">
+                    <div class="sub-title" style="justify-content: center;">문항 교체/추가<img id="exit" style="position: absolute;right:10px;top:14px;width:20px"src="./exit.png" /></div>
+                    <div id="right-section">
+                        <div style="
+                        margin-top: 1px;
+                        width:100%;
+
+                        position:relative;
+
+                        color:#9F9F9F;
+                        line-height: 28px;">
+                        <button style="height:24px;width:70px;">유사문항</button> 버튼을 누르면<br>
+                        해당 문서의 유사 문항을 볼 수 있습니다.
+                    </div>
+                    </div>
+                </header>
+
+            </article>
+        </section>
+
+    </body>
+</html>

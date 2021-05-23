@@ -1,0 +1,233 @@
+@media all and (max-width:767px) {
+    #right{
+        display:none;
+        position:absolute;
+
+        left:0;
+
+        top:0;
+        background-color: #F5F5F5;
+    }
+    #exit{
+        display:block
+    }
+    .problem-body img{
+        min-width:300px;
+    }
+    article#left{
+        width:100%;
+    }
+    .problem{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .problem-type, .problem-num-L, .problem-num-R{
+        width:50px;
+    }
+    
+}
+
+@media all and (min-width:768px) and (max-width:1023px) {
+    .problem-type, .problem-num-L, .problem-num-R{
+        width:50px;
+    }
+    .problem{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .problem-body img{
+        min-width:100%;
+    }
+    #exit{
+        display:none;
+    }
+}
+
+@media all and (min-width:1024px) {
+    .problem-type, .problem-num-L, .problem-num-R{
+        width:100px;
+    }
+    .problem{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .problem-body img{
+        min-width:100%;
+    }
+    #exit{
+        display:none;
+    }
+}
+
+body{
+    margin:0px;
+    background-color:#F5F5F5;
+}
+header{
+    position: relative;
+    width:100%;
+    height:48px;
+    line-height: 48px;
+    vertical-align: middle;
+    font-size:14px;
+    color: #4C4C4C;
+}
+section{
+
+    display:flex;
+    width:100%;
+    height:100%;
+}
+article{
+    width:50%;
+    box-sizing: border-box;
+}
+#left,#right{
+    overflow:scroll;
+    height:100vh;
+    width:100%;
+}
+article:nth-child(1){
+    margin:0 3px 0 1px;
+    border-right: 2px solid #E0E0E0;
+}
+article:nth-child(2){
+    margin:0 1px 0 3px;
+}
+.sub-title{
+    display:flex;
+    align-items: center;
+    margin:0 15px;
+ 
+    height: 48px;
+    
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+}
+.problem{
+    background-color: white;
+    margin:3px 0 5px 0;
+    width:100%;
+    min-width:300px;
+    display:flex;
+    
+    
+}
+header{
+    background-color: white;
+}
+/* 섹션 분할*/
+.problem-header,
+    .problem-body,
+        .problem-tail{
+            display:flex;
+            flex-direction: column;
+            margin-bottom:10px;
+        }
+.problem-body{
+    max-width:340px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+}
+
+.problem-tail{
+    align-items: center;
+    flex: 1 0 168px;
+    height:50px;
+}
+/* --- */
+
+.problem-type, .problem-num-L, .problem-num-R{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* flex: 1 0 50px; */
+    height:50px;
+
+
+    /* line-height: 50px;
+    vertical-align: middle; */
+}
+.problem-type{
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+}
+.problem-title,.problem-type,.problem-tail {
+    border-bottom: 1px solid #F5F5F5;
+    margin-bottom: 10px;
+}
+.problem-title{
+       line-height: 50px;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+    color:#4C4C4C;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+
+}
+
+.problem-btn{
+    display:flex;
+    flex: 1 0 50px;
+    justify-content: space-around;
+    align-items: center;
+    min-width:168px
+}
+button,.btn{
+    width:80px;
+    height:36px;
+    border:1px solid #E0E0E0;
+    background-color:#fff;
+    font-size:14px;
+    color:#00ABFF;
+    box-sizing: border-box;
+    border-radius: 3px;
+
+}
+.btn{
+    line-height: 36px;
+    text-align: center;
+    vertical-align: middle;
+}
+button:active{
+    color:#fff;
+    background-color: #00ABFF;
+}
+
+.problem-num-L, .problem-num-R{
+    color: #02C7F2;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 35px;
+}
+
+ul{
+    padding:0;
+    margin:0;
+}
+#right-section{
+    background-color: #fff;
+}
+#right-section > div{
+    color:#9F9F9F;
+    line-height: 28px;
+}
+#right-section > div >button{
+    height:24px;
+    width:70px;
+}
