@@ -52,7 +52,7 @@
         justify-content: center;
     }
     .problem-body img{
-        min-width:100%;
+        min-width:310px;
     }
     #exit{
         display:none;

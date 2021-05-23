@@ -4,54 +4,24 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
     <body>
-        <script src="./fe-problems.js"></script>
-        <script src="./fe-similars.js"></script>
-        <script>
-            let feProblem = jsonData['data'];
-            let siProblem =jsonData2['data'];
-            function render(){
-                    leftSection = document.getElementById('left-section');
-                    problem='';
-                    feProblem.forEach((item,index) => {
-                        problem += `<li class="problem" id="${item.id}">
-                        <div class="problem-header">
-                            <div class="problem-type">${item.problemType}</div>
-                            <div class="problem-num-L">${index+1}</div>
-                        </div>
-                        <div class="problem-body">
-                            <div class="problem-title">${item.unitName}</div>
-                            <div>
-                                <img src="${item.problemURL}">
-                            </div>
-                        </div>
-                        <div class="problem-tail">
-                            <div class="problem-btn">
-                            <input onchange="problemSimilar(${item.id})" id="${item.id}btn" type="checkbox" style="display:none" />
-                            <label id="${item.id}label" for="${item.id}btn" class="btn">유사문항</label>
-                            <button onclick="problemRemove(${item.id},'L')">삭제</button>
-                            </div>
-                        </div>
-                    </li>`;
-                    });
-                    leftSection.innerHTML = problem;
-                }
-            function problemSimilar(id){
-                var show = document.getElementById('right');
-                show.style.display='block';
-                var btn = document.getElementById(id+'btn');
-                var label = document.getElementById(id+'label');
-                    if (btn.checked){
-                        label.style.backgroundColor='#00ABFF';
-                        label.style.color = '#fff'
-                        rightSection = document.getElementById('right-section');
-                        problem='';
 
-                        siProblem.forEach((item,index) => {
-                            
-                            problem += `<div class="problem" id="${item.id}">
+        <script>
+
+            // let feProblem = jsonData['data'];
+            // let siProblem =jsonData2['data'];
+            function render(){
+                fetch('https://pannchat.github.io/fe-problems.json')
+                    .then((res)=>{
+                        return res.json();
+                    }).then((data) =>{ 
+                        const feProblem = data['data'];
+                        leftSection = document.getElementById('left-section');
+                        problem='';
+                        feProblem.forEach((item,index) => {
+                            problem += `<li class="problem" id="${item.id}">
                             <div class="problem-header">
                                 <div class="problem-type">${item.problemType}</div>
-                                <div class="problem-num-R">${index+1}</div>
+                                <div class="problem-num-L">${index+1}</div>
                             </div>
                             <div class="problem-body">
                                 <div class="problem-title">${item.unitName}</div>
@@ -61,34 +31,76 @@
                             </div>
                             <div class="problem-tail">
                                 <div class="problem-btn">
-                                <button onclick="insertProblem(${id},${item.id})">추가</button>
-                                <button onclick="changeProblem(${id},${item.id})">교환</button>
+                                <input onchange="problemSimilar(${item.id})" id="${item.id}btn" type="checkbox" style="display:none" />
+                                <label id="${item.id}label" for="${item.id}btn" class="btn">유사문항</label>
+                                <button onclick="problemRemove(${item.id},'L')">삭제</button>
                                 </div>
                             </div>
-                        </div>`;
+                        </li>`;
                         });
-                        rightSection.innerHTML = problem;
+                        leftSection.innerHTML = problem;
+                        }
+                    )};
+            function problemSimilar(id){
+                fetch('https://pannchat.github.io/fe-similars.json')
+                    .then((res)=>{
+                        return res.json();
+                    }).then((data) =>{ 
+                        const siProblem = data['data'];
+                        var show = document.getElementById('right');
+                        show.style.display='block';
+                        var btn = document.getElementById(id+'btn');
+                        var label = document.getElementById(id+'label');
+                            if (btn.checked){
+                                label.style.backgroundColor='#00ABFF';
+                                label.style.color = '#fff'
+                                rightSection = document.getElementById('right-section');
+                                problem='';
 
-                    }else{
-                        label.style.backgroundColor='#fff';
-                        label.style.color = '#00ABFF'
-                        rightSection.innerHTML = '';
+                                siProblem.forEach((item,index) => {
+                                    
+                                    problem += `<div class="problem" id="${item.id}">
+                                    <div class="problem-header">
+                                        <div class="problem-type">${item.problemType}</div>
+                                        <div class="problem-num-R">${index+1}</div>
+                                    </div>
+                                    <div class="problem-body">
+                                        <div class="problem-title">${item.unitName}</div>
+                                        <div>
+                                            <img src="${item.problemURL}">
+                                        </div>
+                                    </div>
+                                    <div class="problem-tail">
+                                        <div class="problem-btn">
+                                        <button onclick="insertProblem(${id},${item.id})">추가</button>
+                                        <button onclick="changeProblem(${id},${item.id})">교환</button>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                });
+                                rightSection.innerHTML = problem;
+
+                            }else{
+                                label.style.backgroundColor='#fff';
+                                label.style.color = '#00ABFF'
+                                rightSection.innerHTML = '';
+                            }
+
+                    let exit = document.getElementById('exit');
+                    try{
+                        exit.addEventListener('click',()=>{
+                        document.getElementById('right').style.display='none';
+                            btn.checked = false;
+                            label.style.backgroundColor='#fff';
+                                label.style.color = '#00ABFF'
+                        
+                        })
+                    
+                    }catch{
+                        
                     }
-
-            let exit = document.getElementById('exit');
-            try{
-                exit.addEventListener('click',()=>{
-                document.getElementById('right').style.display='none';
-                    btn.checked = false;
-                    label.style.backgroundColor='#fff';
-                        label.style.color = '#00ABFF'
-                
-                })
-               
-            }catch{
-                
-            }
                 }
+                    )}
             
             function insertProblem(id,newNode){
                 id = document.getElementById(id);
